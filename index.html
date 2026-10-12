@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chương 2 Python - Biến, kiểu dữ liệu, toán tử, I/O</title>
+<style>
+:root{
+  --primary:#0d63ce; --primary2:#1d7be3; --bg:#f4f7fb; --card:#ffffff;
+  --text:#172033; --muted:#60708d; --border:#dbe5f2; --soft:#eef5ff;
+  --ok:#14804a; --warn:#c65a11; --code:#101827;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.68}
+header{
+  position:sticky; top:0; z-index:20; color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  padding:15px 24px; box-shadow:0 3px 16px rgba(0,0,0,.14)
+}
+.header-wrap{max-width:1420px;margin:auto;display:flex;justify-content:space-between;gap:20px;align-items:center}
+header h1{margin:0;font-size:23px} header p{margin:4px 0 0;font-size:13px;opacity:.95}
+.progress-box{min-width:220px}.progress{height:8px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:#fff}
+.layout{max-width:1420px;margin:20px auto;padding:0 16px 40px;display:grid;grid-template-columns:310px 1fr;gap:22px}
+nav{position:sticky;top:98px;align-self:start;background:#fff;border:1px solid var(--border);border-radius:18px;padding:16px;max-height:calc(100vh - 120px);overflow:auto}
+nav h3{margin:0 0 12px;color:var(--primary)}
+nav a{display:block;padding:8px 10px;margin:3px 0;border-radius:9px;text-decoration:none;color:var(--text);font-size:14px}
+nav a:hover{background:var(--soft);color:var(--primary)}
+main{min-width:0}
+.hero,.section{background:#fff;border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+.hero{background:linear-gradient(135deg,#fff,#edf5ff)}
+.hero h2{font-size:31px;color:var(--primary);margin:0 0 8px}
+.section h2{font-size:27px;color:var(--primary);margin-top:0}
+.section h3{color:#23466f;margin-top:24px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}.badge{background:#e9f3ff;color:var(--primary);padding:7px 11px;border-radius:999px;font-weight:700;font-size:13px}
+.note,.tip,.warn,.goal{padding:14px 16px;border-radius:12px;margin:14px 0}
+.note{background:#eef5ff;border-left:5px solid var(--primary)}
+.tip{background:#eefbf3;border-left:5px solid var(--ok)}
+.warn{background:#fff5eb;border-left:5px solid var(--warn)}
+.goal{background:#f8fafc;border-left:5px solid #64748b}
+pre{background:var(--code);color:#edf6ff;padding:16px;border-radius:14px;overflow:auto;font-size:14px;line-height:1.55}
+code{font-family:Consolas,Monaco,monospace}
+table{width:100%;border-collapse:collapse;margin:14px 0}
+th,td{border:1px solid var(--border);padding:10px;text-align:left;vertical-align:top}
+th{background:#edf5ff}
+.exercise{background:#fbfdff;border:1px solid #bfd0e7;border-radius:16px;padding:17px;margin:16px 0}
+.exercise h4{margin:0 0 8px;color:#194b8d;font-size:18px}
+.requirement{background:#f7f9fc;border-radius:10px;padding:12px;margin:10px 0}
+.filename{display:inline-block;background:#13233c;color:#fff;border-radius:8px;padding:5px 9px;font-family:Consolas,monospace}
+.steps{counter-reset:step}
+.steps li{margin:7px 0}
+.answer{display:none;margin-top:12px;border-top:1px solid var(--border);padding-top:12px}
+button{border:none;border-radius:9px;padding:9px 13px;cursor:pointer;font-weight:700}
+.btn{background:var(--primary);color:#fff}.btn2{background:#eaf3ff;color:var(--primary)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.demo{border:2px solid #9cc1ef;border-radius:16px;padding:17px;margin:18px 0;background:#f8fbff}
+.demo h4{margin:0 0 8px;color:#123f7a}
+.output{background:#0b1220;color:#e6edf7;padding:12px;border-radius:10px;font-family:Consolas,monospace;white-space:pre-wrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.small{font-size:13px;color:var(--muted)}
+.summary{background:#0f172a;color:#fff;padding:18px;border-radius:15px}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}nav{position:static;max-height:none}.header-wrap{flex-direction:column;align-items:flex-start}.progress-box{width:100%}.grid2{grid-template-columns:1fr}}
+@media print{header,nav,button,.toolbar{display:none!important}.layout{display:block;padding:0;margin:0}.hero,.section{box-shadow:none}.answer{display:block!important}}
+</style>
+</head>
+<body>
+<header>
+<div class="header-wrap">
+  <div>
+    <h1>PYTHON CƠ BẢN · CHƯƠNG 2</h1>
+    <p>Biến · Kiểu dữ liệu · Toán tử · Chuỗi · Nhập/Xuất · Xử lý lỗi nhập liệu</p>
+  </div>
+  <div class="progress-box">
+    <div style="font-size:12px;margin-bottom:5px">Tiến độ đọc bài</div>
+    <div class="progress"><span id="progress"></span></div>
+  </div>
+</div>
+</header>
+
+<div class="layout">
+<nav>
+<h3>MỤC LỤC</h3>
+<a href="#intro">Tổng quan chương</a>
+<a href="#bien">1. Biến và phép gán</a>
+<a href="#datten">2. Đặt tên biến & PEP 8</a>
+<a href="#kieu">3. Kiểu dữ liệu</a>
+<a href="#cast">4. Chuyển đổi kiểu</a>
+<a href="#toantu">5. Toán tử số học</a>
+<a href="#logic">6. So sánh & logic</a>
+<a href="#chuoi">7. Chuỗi & định dạng</a>
+<a href="#io">8. input() & print()</a>
+<a href="#loi">9. Xử lý lỗi nhập liệu</a>
+<a href="#tonghop">10. Thực hành tổng hợp</a>
+</nav>
+
+<main>
+<section class="hero" id="intro">
+<h2>CHƯƠNG 2: BIẾN, KIỂU DỮ LIỆU, TOÁN TỬ VÀ I/O</h2>
+<p>Chương này được biên soạn cho sinh viên mới bắt đầu học Python. Mỗi nội dung đều đi từ khái niệm đơn giản, ví dụ minh họa, demo hoàn chỉnh, rồi đến bài thực hành có hướng dẫn cụ thể.</p>
+<div class="badges">
+<span class="badge">Biến</span><span class="badge">PEP 8</span><span class="badge">int</span><span class="badge">float</span><span class="badge">str</span><span class="badge">bool</span><span class="badge">cast</span><span class="badge">toán tử</span><span class="badge">f-string</span><span class="badge">input()</span><span class="badge">print()</span><span class="badge">try...except</span>
+</div>
+<div class="toolbar">
+<button class="btn" onclick="showAll()">Hiện tất cả đáp án</button>
+<button class="btn2" onclick="hideAll()">Ẩn tất cả đáp án</button>
+<button class="btn2" onclick="window.print()">In bài giảng</button>
+</div>
+</section>
+
+<section class="section">
+<h2>Mục tiêu học tập</h2>
+<ul>
+<li>Hiểu biến là gì, vì sao phải dùng biến và cách gán giá trị.</li>
+<li>Biết đặt tên biến đúng quy tắc, dễ đọc, đúng tinh thần PEP 8.</li>
+<li>Phân biệt và sử dụng các kiểu dữ liệu cơ bản: <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>.</li>
+<li>Biết chuyển đổi kiểu dữ liệu để phục vụ tính toán.</li>
+<li>Sử dụng được toán tử số học, toán tử so sánh và toán tử logic.</li>
+<li>Biết tạo chuỗi, nối chuỗi, xuống dòng, tab và định dạng dữ liệu bằng f-string.</li>
+<li>Biết nhập dữ liệu bằng <code>input()</code> và xuất dữ liệu bằng <code>print()</code>.</li>
+<li>Biết xử lý lỗi nhập liệu cơ bản bằng <code>try...except</code>.</li>
+<li>Viết được các chương trình Python nhỏ hoàn chỉnh từ đầu đến cuối.</li>
+</ul>
+</section>
+
+<section class="section" id="bien">
+<h2>1. BIẾN VÀ PHÉP GÁN</h2>
+
+<h3>1.1. Biến là gì?</h3>
+<p>Trong lập trình, biến là một tên được dùng để lưu một giá trị. Có thể hình dung biến giống như một chiếc hộp có nhãn. Nhãn là tên biến, còn dữ liệu nằm trong hộp là giá trị của biến.</p>
+<pre><code>name = "An"
+age = 18
+score = 8.5</code></pre>
+<p>Trong ví dụ trên:</p>
+<ul>
+<li><code>name</code> là biến lưu họ tên.</li>
+<li><code>age</code> là biến lưu tuổi.</li>
+<li><code>score</code> là biến lưu điểm.</li>
+<li>Dấu <code>=</code> dùng để <b>gán giá trị</b>.</li>
+</ul>
+
+<h3>1.2. Vì sao phải dùng biến?</h3>
+<p>Nếu không dùng biến, ta phải viết lại dữ liệu nhiều lần. Khi dữ liệu thay đổi, phải sửa ở nhiều chỗ. Khi dùng biến, chỉ cần thay đổi giá trị của biến một lần.</p>
+<pre><code>price = 25000
+quantity = 3
+total = price * quantity
+print(total)</code></pre>
+
+<h3>1.3. Gán lại giá trị</h3>
+<p>Một biến có thể nhận giá trị mới trong quá trình chạy chương trình.</p>
+<pre><code>score = 7
+print(score)
+
+score = 8.5
+print(score)</code></pre>
+
+<div class="demo">
+<h4>DEMO HOÀN CHỈNH 1 · Thông tin sinh viên</h4>
+<p><b>Tên file:</b> <span class="filename">demo_01_thong_tin_sinh_vien.py</span></p>
+<p><b>Yêu cầu:</b> tạo các biến lưu họ tên, tuổi, lớp, điểm trung bình và in ra màn hình.</p>
+<p><b>Code hoàn chỉnh – có thể copy nguyên khối:</b></p>
+<pre><code># demo_01_thong_tin_sinh_vien.py
+
+student_name = "Nguyen Van An"
+age = 18
+student_class = "CNTT K28"
+average_score = 8.5
+
+print("THÔNG TIN SINH VIÊN")
+print("Họ tên:", student_name)
+print("Tuổi:", age)
+print("Lớp:", student_class)
+print("Điểm trung bình:", average_score)</code></pre>
+<div class="output">THÔNG TIN SINH VIÊN
+Họ tên: Nguyen Van An
+Tuổi: 18
+Lớp: CNTT K28
+Điểm trung bình: 8.5</div>
+</div>
+
+<h3>5 bài thực hành cơ bản</h3>
+
+<div class="exercise">
+<h4>Bài 1. Thông tin cá nhân</h4>
+<div class="requirement"><b>Yêu cầu:</b> Tạo biến lưu họ tên, tuổi, quê quán. In ra 3 dòng.</div>
+<p><b>Tên file:</b> <span class="filename">bt01_thong_tin_ca_nhan.py</span></p>
+<ol class="steps">
+<li>Tạo file mới với đúng tên trên.</li>
+<li>Tạo biến <code>full_name</code>, <code>age</code>, <code>hometown</code>.</li>
+<li>Gán giá trị mẫu.</li>
+<li>Dùng <code>print()</code> để in từng thông tin.</li>
+</ol>
+<button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button>
+<div class="answer"><pre><code># bt01_thong_tin_ca_nhan.py
+
+full_name = "Nguyen Van An"
+age = 18
+hometown = "Ca Mau"
+
+print("Họ tên:", full_name)
+print("Tuổi:", age)
+print("Quê quán:", hometown)</code></pre></div>
+</div>
+
+<div class="exercise">
+<h4>Bài 2. Thông tin môn học</h4>
+<div class="requirement"><b>Yêu cầu:</b> Lưu tên môn học, số tín chỉ, điểm số.</div>
+<p><b>Tên file:</b> <span class="filename">bt02_mon_hoc.py</span></p>
+<ol><li>Tạo biến <code>subject_name</code>.</li><li>Tạo biến <code>credits</code>.</li><li>Tạo biến <code>score</code>.</li><li>In ra màn hình.</li></ol>
+<button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button>
+<div class="answer"><pre><code># bt02_mon_hoc.py
+
+subject_name = "Lập trình Python"
+credits = 3
+score = 8.0
+
+print("Môn học:", subject_name)
+print("Số tín chỉ:", credits)
+print("Điểm:", score)</code></pre></div>
+</div>
+
+<div class="exercise">
+<h4>Bài 3. Tính thành tiền</h4>
+<div class="requirement"><b>Yêu cầu:</b> Cho đơn giá 20.000 và số lượng 5. Tính thành tiền.</div>
+<p><b>Tên file:</b> <span class="filename">bt03_tinh_thanh_tien.py</span></p>
+<ol><li>Tạo <code>price = 20000</code>.</li><li>Tạo <code>quantity = 5</code>.</li><li>Tính <code>total = price * quantity</code>.</li><li>In total.</li></ol>
+<button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button>
+<div class="answer"><pre><code># bt03_tinh_thanh_tien.py
+
+price = 20000
+quantity = 5
+total = price * quantity
+
+print("Đơn giá:", price)
+print("Số lượng:", quantity)
+print("Thành tiền:", total)</code></pre></div>
+</div>
+
+<div class="exercise">
+<h4>Bài 4. Thay đổi giá trị biến</h4>
+<div class="requirement"><b>Yêu cầu:</b> Gán điểm ban đầu là 7, sau đó cập nhật thành 8.5.</div>
+<p><b>Tên file:</b> <span class="filename">bt04_cap_nhat_diem.py</span></p>
+<button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button>
+<div class="answer"><pre><code># bt04_cap_nhat_diem.py
+
+score = 7
+print("Điểm ban đầu:", score)
+
+score = 8.5
+print("Điểm sau cập nhật:", score)</code></pre></div>
+</div>
+
+<div class="exercise">
+<h4>Bài 5. Tính tuổi tương đối</h4>
+<div class="requirement"><b>Yêu cầu:</b> Cho năm sinh 2007, năm hiện tại 2026. Tính tuổi tương đối.</div>
+<p><b>Tên file:</b> <span class="filename">bt05_tinh_tuoi.py</span></p>
+<button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button>
+<div class="answer"><pre><code># bt05_tinh_tuoi.py
+
+birth_year = 2007
+current_year = 2026
+age = current_year - birth_year
+
+print("Tuổi tương đối:", age)</code></pre></div>
+</div>
+</section>
+
+<section class="section" id="datten">
+<h2>2. ĐẶT TÊN BIẾN VÀ TÍNH DỄ ĐỌC THEO PEP 8</h2>
+
+<h3>2.1. Quy tắc đặt tên</h3>
+<ul>
+<li>Tên biến có thể chứa chữ cái, chữ số và dấu gạch dưới <code>_</code>.</li>
+<li>Không bắt đầu bằng chữ số.</li>
+<li>Không có khoảng trắng.</li>
+<li>Không dùng ký tự đặc biệt như <code>@</code>, <code>#</code>, <code>$</code>.</li>
+<li>Python phân biệt chữ hoa và chữ thường.</li>
+</ul>
+
+<table>
+<tr><th>Đúng</th><th>Sai</th><th>Giải thích</th></tr>
+<tr><td><code>student_name</code></td><td><code>student name</code></td><td>Không được có khoảng trắng</td></tr>
+<tr><td><code>score1</code></td><td><code>1score</code></td><td>Không bắt đầu bằng số</td></tr>
+<tr><td><code>total_price</code></td><td><code>total-price</code></td><td>Không dùng dấu - trong tên biến</td></tr>
+</table>
+
+<h3>2.2. PEP 8 là gì?</h3>
+<p>PEP 8 là hướng dẫn phong cách viết mã Python. Với biến, nên dùng kiểu <b>snake_case</b>: các từ viết thường và nối với nhau bằng dấu gạch dưới.</p>
+<pre><code>student_name = "An"
+average_score = 8.5
+total_payment = 150000</code></pre>
+
+<div class="tip"><b>Mẹo:</b> tên biến nên trả lời được câu hỏi “dữ liệu này là gì?”.</div>
+
+<div class="demo">
+<h4>DEMO HOÀN CHỈNH 2 · Tính diện tích với tên biến dễ đọc</h4>
+<p><b>Tên file:</b> <span class="filename">demo_02_ten_bien_de_doc.py</span></p>
+<pre><code># demo_02_ten_bien_de_doc.py
+
+rectangle_length = 10
+rectangle_width = 5
+rectangle_area = rectangle_length * rectangle_width
+
+print("Chiều dài:", rectangle_length)
+print("Chiều rộng:", rectangle_width)
+print("Diện tích:", rectangle_area)</code></pre>
+</div>
+
+<h3>5 bài thực hành cơ bản</h3>
+<div class="exercise"><h4>Bài 1. Sửa tên biến sai</h4><div class="requirement"><b>Yêu cầu:</b> Sửa các tên <code>student name</code>, <code>1score</code>, <code>total-price</code>.</div><p><b>Tên file:</b> <span class="filename">bt06_sua_ten_bien.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt06_sua_ten_bien.py
+
+student_name = "An"
+score1 = 8
+total_price = 100000
+
+print(student_name)
+print(score1)
+print(total_price)</code></pre></div></div>
+
+<div class="exercise"><h4>Bài 2. Đổi tên biến a, b, c</h4><div class="requirement"><b>Yêu cầu:</b> Đổi thành tên có nghĩa khi tính diện tích hình chữ nhật.</div><p><b>Tên file:</b> <span class="filename">bt07_ten_bien_co_nghia.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt07_ten_bien_co_nghia.py
+
+length = 10
+width = 5
+area = length * width
+
+print("Diện tích:", area)</code></pre></div></div>
+
+<div class="exercise"><h4>Bài 3. Hồ sơ sinh viên</h4><div class="requirement"><b>Yêu cầu:</b> Tạo biến tên, mã sinh viên, lớp, email.</div><p><b>Tên file:</b> <span class="filename">bt08_ho_so_sinh_vien.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt08_ho_so_sinh_vien.py
+
+student_name = "Nguyen Van An"
+student_id = "SV001"
+student_class = "CNTT K28"
+email_address = "an@example.com"
+
+print(student_name)
+print(student_id)
+print(student_class)
+print(email_address)</code></pre></div></div>
+
+<div class="exercise"><h4>Bài 4. Phân biệt hoa thường</h4><div class="requirement"><b>Yêu cầu:</b> Tạo <code>age</code> và <code>Age</code>, in cả hai để thấy chúng là hai biến khác nhau.</div><p><b>Tên file:</b> <span class="filename">bt09_phan_biet_hoa_thuong.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt09_phan_biet_hoa_thuong.py
+
+age = 18
+Age = 20
+
+print("age =", age)
+print("Age =", Age)</code></pre></div></div>
+
+<div class="exercise"><h4>Bài 5. Tính tổng tiền sách</h4><div class="requirement"><b>Yêu cầu:</b> Dùng tên biến rõ nghĩa để tính tiền mua 3 quyển sách, mỗi quyển 45.000.</div><p><b>Tên file:</b> <span class="filename">bt10_tien_sach.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt10_tien_sach.py
+
+book_price = 45000
+book_quantity = 3
+total_payment = book_price * book_quantity
+
+print("Tổng tiền:", total_payment)</code></pre></div></div>
+</section>
+
+<section class="section" id="kieu">
+<h2>3. KIỂU DỮ LIỆU CƠ BẢN</h2>
+
+<h3>3.1. int – số nguyên</h3>
+<p>Dùng khi dữ liệu là số nguyên: tuổi, số lượng, năm, số thứ tự.</p>
+<pre><code>age = 18
+quantity = 25
+year = 2026</code></pre>
+
+<h3>3.2. float – số thực</h3>
+<p>Dùng khi dữ liệu có phần thập phân: điểm, chiều cao, nhiệt độ, đơn giá có lẻ.</p>
+<pre><code>score = 8.5
+height = 1.72
+temperature = 30.5</code></pre>
+
+<h3>3.3. str – chuỗi</h3>
+<p>Dùng để lưu văn bản, mã sinh viên, số điện thoại, email. Chuỗi phải nằm trong dấu nháy.</p>
+<pre><code>name = "Nguyen Van An"
+phone = "0912345678"
+student_id = "SV001"</code></pre>
+
+<h3>3.4. bool – logic đúng/sai</h3>
+<pre><code>is_student = True
+is_graduated = False</code></pre>
+
+<h3>3.5. type()</h3>
+<p>Hàm <code>type()</code> giúp kiểm tra kiểu dữ liệu của một biến.</p>
+<pre><code>age = 18
+print(type(age))</code></pre>
+
+<div class="demo">
+<h4>DEMO HOÀN CHỈNH 3 · Kiểm tra kiểu dữ liệu</h4>
+<p><b>Tên file:</b> <span class="filename">demo_03_kieu_du_lieu.py</span></p>
+<pre><code># demo_03_kieu_du_lieu.py
+
+age = 18
+score = 8.5
+name = "An"
+is_student = True
+
+print("age:", age, "-", type(age))
+print("score:", score, "-", type(score))
+print("name:", name, "-", type(name))
+print("is_student:", is_student, "-", type(is_student))</code></pre>
+</div>
+
+<h3>5 bài thực hành cơ bản</h3>
+<div class="exercise"><h4>Bài 1. Tạo đủ 4 kiểu dữ liệu</h4><div class="requirement"><b>Yêu cầu:</b> Tạo một biến int, float, str, bool và dùng type().</div><p><b>Tên file:</b> <span class="filename">bt11_4_kieu_du_lieu.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt11_4_kieu_du_lieu.py
+
+age = 18
+score = 8.5
+name = "An"
+is_student = True
+
+print(type(age))
+print(type(score))
+print(type(name))
+print(type(is_student))</code></pre></div></div>
+
+<div class="exercise"><h4>Bài 2. Kiểm tra kiểu của dữ liệu có sẵn</h4><div class="requirement"><b>Yêu cầu:</b> Kiểm tra kiểu của 100, 9.5, "100", False.</div><p><b>Tên file:</b> <span class="filename">bt12_kiem_tra_type.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt12_kiem_tra_type.py
+
+print(type(100))
+print(type(9.5))
+print(type("100"))
+print(type(False))</code></pre></div></div>
+
+<div class="exercise"><h4>Bài 3. Số điện thoại</h4><div class="requirement"><b>Yêu cầu:</b> Lưu số điện thoại bằng kiểu phù hợp.</div><p><b>Tên file:</b> <span class="filename">bt13_so_dien_thoai.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt13_so_dien_thoai.py
+
+phone_number = "0912345678"
+
+print(phone_number)
+print(type(phone_number))</code></pre></div></div>
+
+<div class="exercise"><h4>Bài 4. Trạng thái đăng nhập</h4><div class="requirement"><b>Yêu cầu:</b> Tạo biến bool biểu diễn người dùng đã đăng nhập hay chưa.</div><p><b>Tên file:</b> <span class="filename">bt14_trang_thai.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt14_trang_thai.py
+
+is_logged_in = True
+
+print("Đã đăng nhập:", is_logged_in)
+print(type(is_logged_in))</code></pre></div></div>
+
+<div class="exercise"><h4>Bài 5. Thông tin sản phẩm</h4><div class="requirement"><b>Yêu cầu:</b> Tạo tên sản phẩm, số lượng, đơn giá và trạng thái còn hàng.</div><p><b>Tên file:</b> <span class="filename">bt15_san_pham.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt15_san_pham.py
+
+product_name = "Notebook"
+quantity = 20
+price = 15000.0
+in_stock = True
+
+print(product_name)
+print(quantity)
+print(price)
+print(in_stock)</code></pre></div></div>
+</section>
+
+<section class="section" id="cast">
+<h2>4. CHUYỂN ĐỔI KIỂU DỮ LIỆU</h2>
+<p>Chuyển đổi kiểu dữ liệu rất quan trọng vì dữ liệu nhập từ bàn phím bằng <code>input()</code> luôn là chuỗi.</p>
+
+<h3>4.1. int()</h3>
+<pre><code>age_text = "18"
+age = int(age_text)</code></pre>
+
+<h3>4.2. float()</h3>
+<pre><code>score_text = "8.5"
+score = float(score_text)</code></pre>
+
+<h3>4.3. str()</h3>
+<pre><code>year = 2026
+year_text = str(year)</code></pre>
+
+<h3>4.4. Vì sao "10" + "20" không bằng 30?</h3>
+<p>Vì đây là hai chuỗi, phép <code>+</code> sẽ nối chuỗi:</p>
+<pre><code>print("10" + "20")   # 1020</code></pre>
+<p>Muốn tính toán:</p>
+<pre><code>print(int("10") + int("20"))   # 30</code></pre>
+
+<div class="demo">
+<h4>DEMO HOÀN CHỈNH 4 · Nhập hai số và tính tổng</h4>
+<p><b>Tên file:</b> <span class="filename">demo_04_ep_kieu_tinh_tong.py</span></p>
+<pre><code># demo_04_ep_kieu_tinh_tong.py
+
+a = int(input("Nhập số a: "))
+b = int(input("Nhập số b: "))
+
+total = a + b
+
+print("Tổng =", total)</code></pre>
+</div>
+
+<h3>5 bài thực hành cơ bản</h3>
+<div class="exercise"><h4>Bài 1. Cộng hai chuỗi số</h4><div class="requirement"><b>Yêu cầu:</b> Cho a="15", b="25". Ép kiểu và tính tổng.</div><p><b>Tên file:</b> <span class="filename">bt16_ep_kieu_cong.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt16_ep_kieu_cong.py
+
+a = "15"
+b = "25"
+
+total = int(a) + int(b)
+
+print("Tổng:", total)</code></pre></div></div>
+<div class="exercise"><h4>Bài 2. Chuyển điểm sang float</h4><div class="requirement"><b>Yêu cầu:</b> Chuyển "8.75" sang số thực.</div><p><b>Tên file:</b> <span class="filename">bt17_ep_kieu_float.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt17_ep_kieu_float.py
+
+score_text = "8.75"
+score = float(score_text)
+
+print(score)
+print(type(score))</code></pre></div></div>
+<div class="exercise"><h4>Bài 3. Số thành chuỗi</h4><div class="requirement"><b>Yêu cầu:</b> Cho year=2026, ghép thành câu "Năm 2026".</div><p><b>Tên file:</b> <span class="filename">bt18_so_thanh_chuoi.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt18_so_thanh_chuoi.py
+
+year = 2026
+message = "Năm " + str(year)
+
+print(message)</code></pre></div></div>
+<div class="exercise"><h4>Bài 4. Nhập tuổi và cộng 1</h4><div class="requirement"><b>Yêu cầu:</b> Nhập tuổi từ bàn phím, tính tuổi năm sau.</div><p><b>Tên file:</b> <span class="filename">bt19_tuoi_nam_sau.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt19_tuoi_nam_sau.py
+
+age = int(input("Nhập tuổi hiện tại: "))
+next_age = age + 1
+
+print("Tuổi năm sau:", next_age)</code></pre></div></div>
+<div class="exercise"><h4>Bài 5. Nhập chiều cao</h4><div class="requirement"><b>Yêu cầu:</b> Nhập chiều cao bằng mét dưới dạng số thực.</div><p><b>Tên file:</b> <span class="filename">bt20_nhap_chieu_cao.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt20_nhap_chieu_cao.py
+
+height = float(input("Nhập chiều cao (m): "))
+
+print("Chiều cao:", height)</code></pre></div></div>
+</section>
+
+<section class="section" id="toantu">
+<h2>5. TOÁN TỬ SỐ HỌC</h2>
+<table>
+<tr><th>Toán tử</th><th>Ý nghĩa</th><th>Ví dụ</th></tr>
+<tr><td><code>+</code></td><td>Cộng</td><td>5 + 2 = 7</td></tr>
+<tr><td><code>-</code></td><td>Trừ</td><td>5 - 2 = 3</td></tr>
+<tr><td><code>*</code></td><td>Nhân</td><td>5 * 2 = 10</td></tr>
+<tr><td><code>/</code></td><td>Chia thường</td><td>5 / 2 = 2.5</td></tr>
+<tr><td><code>//</code></td><td>Chia lấy phần nguyên</td><td>5 // 2 = 2</td></tr>
+<tr><td><code>%</code></td><td>Chia lấy dư</td><td>5 % 2 = 1</td></tr>
+<tr><td><code>**</code></td><td>Lũy thừa</td><td>5 ** 2 = 25</td></tr>
+</table>
+
+<h3>5.1. Thứ tự ưu tiên</h3>
+<p>Python thực hiện theo thứ tự tương tự toán học: ngoặc → lũy thừa → nhân/chia → cộng/trừ.</p>
+<pre><code>result = (2 + 3) * 4
+print(result)  # 20</code></pre>
+
+<div class="demo">
+<h4>DEMO HOÀN CHỈNH 5 · Hình chữ nhật</h4>
+<p><b>Tên file:</b> <span class="filename">demo_05_hinh_chu_nhat.py</span></p>
+<pre><code># demo_05_hinh_chu_nhat.py
+
+length = float(input("Nhập chiều dài: "))
+width = float(input("Nhập chiều rộng: "))
+
+perimeter = (length + width) * 2
+area = length * width
+
+print("Chu vi:", perimeter)
+print("Diện tích:", area)</code></pre>
+</div>
+
+<h3>5 bài thực hành cơ bản</h3>
+<div class="exercise"><h4>Bài 1. Hình chữ nhật</h4><div class="requirement"><b>Yêu cầu:</b> Nhập dài, rộng; tính chu vi, diện tích.</div><p><b>Tên file:</b> <span class="filename">bt21_hinh_chu_nhat.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt21_hinh_chu_nhat.py
+
+length = float(input("Chiều dài: "))
+width = float(input("Chiều rộng: "))
+
+perimeter = (length + width) * 2
+area = length * width
+
+print("Chu vi:", perimeter)
+print("Diện tích:", area)</code></pre></div></div>
+<div class="exercise"><h4>Bài 2. Hình tròn</h4><div class="requirement"><b>Yêu cầu:</b> Nhập bán kính, tính chu vi và diện tích.</div><p><b>Tên file:</b> <span class="filename">bt22_hinh_tron.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt22_hinh_tron.py
+
+radius = float(input("Bán kính: "))
+pi = 3.14
+
+perimeter = 2 * pi * radius
+area = pi * radius ** 2
+
+print("Chu vi:", perimeter)
+print("Diện tích:", area)</code></pre></div></div>
+<div class="exercise"><h4>Bài 3. Đổi phút sang giờ</h4><div class="requirement"><b>Yêu cầu:</b> Nhập số phút, đổi sang giờ và phút.</div><p><b>Tên file:</b> <span class="filename">bt23_doi_phut.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt23_doi_phut.py
+
+total_minutes = int(input("Nhập tổng số phút: "))
+
+hours = total_minutes // 60
+minutes = total_minutes % 60
+
+print(hours, "giờ", minutes, "phút")</code></pre></div></div>
+<div class="exercise"><h4>Bài 4. Điểm trung bình</h4><div class="requirement"><b>Yêu cầu:</b> Nhập 3 điểm, tính trung bình.</div><p><b>Tên file:</b> <span class="filename">bt24_diem_trung_binh.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt24_diem_trung_binh.py
+
+math = float(input("Điểm Toán: "))
+physics = float(input("Điểm Lý: "))
+chemistry = float(input("Điểm Hóa: "))
+
+average = (math + physics + chemistry) / 3
+
+print("Điểm trung bình:", average)</code></pre></div></div>
+<div class="exercise"><h4>Bài 5. Tính giảm giá</h4><div class="requirement"><b>Yêu cầu:</b> Nhập giá và phần trăm giảm, tính giá sau giảm.</div><p><b>Tên file:</b> <span class="filename">bt25_giam_gia.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt25_giam_gia.py
+
+price = float(input("Giá sản phẩm: "))
+discount_percent = float(input("Phần trăm giảm: "))
+
+discount_amount = price * discount_percent / 100
+final_price = price - discount_amount
+
+print("Tiền giảm:", discount_amount)
+print("Giá sau giảm:", final_price)</code></pre></div></div>
+</section>
+
+<section class="section" id="logic">
+<h2>6. TOÁN TỬ SO SÁNH VÀ LOGIC</h2>
+<p>Toán tử so sánh trả về kết quả <code>True</code> hoặc <code>False</code>.</p>
+
+<table>
+<tr><th>Toán tử</th><th>Ý nghĩa</th></tr>
+<tr><td><code>&gt;</code></td><td>Lớn hơn</td></tr>
+<tr><td><code>&lt;</code></td><td>Nhỏ hơn</td></tr>
+<tr><td><code>&gt;=</code></td><td>Lớn hơn hoặc bằng</td></tr>
+<tr><td><code>&lt;=</code></td><td>Nhỏ hơn hoặc bằng</td></tr>
+<tr><td><code>==</code></td><td>Bằng nhau</td></tr>
+<tr><td><code>!=</code></td><td>Khác nhau</td></tr>
+</table>
+
+<h3>6.1. and</h3>
+<p>Chỉ trả về True khi cả hai điều kiện đều đúng.</p>
+<h3>6.2. or</h3>
+<p>Chỉ cần ít nhất một điều kiện đúng.</p>
+<h3>6.3. not</h3>
+<p>Đảo ngược True thành False và ngược lại.</p>
+
+<div class="demo">
+<h4>DEMO HOÀN CHỈNH 6 · Kiểm tra điều kiện học tập</h4>
+<p><b>Tên file:</b> <span class="filename">demo_06_so_sanh_logic.py</span></p>
+<pre><code># demo_06_so_sanh_logic.py
+
+score = 7.5
+attendance = 85
+
+condition_score = score >= 5
+condition_attendance = attendance >= 80
+result = condition_score and condition_attendance
+
+print("Điểm đạt:", condition_score)
+print("Chuyên cần đạt:", condition_attendance)
+print("Đạt cả hai điều kiện:", result)</code></pre>
+</div>
+
+<h3>5 bài thực hành cơ bản</h3>
+<div class="exercise"><h4>Bài 1. Kiểm tra tuổi</h4><div class="requirement"><b>Yêu cầu:</b> Cho age=19, kiểm tra age >= 18.</div><p><b>Tên file:</b> <span class="filename">bt26_kiem_tra_tuoi.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt26_kiem_tra_tuoi.py
+
+age = 19
+result = age >= 18
+
+print(result)</code></pre></div></div>
+<div class="exercise"><h4>Bài 2. Kiểm tra điểm</h4><div class="requirement"><b>Yêu cầu:</b> Kiểm tra điểm có lớn hơn hoặc bằng 5.</div><p><b>Tên file:</b> <span class="filename">bt27_kiem_tra_diem.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt27_kiem_tra_diem.py
+
+score = 7.5
+print(score >= 5)</code></pre></div></div>
+<div class="exercise"><h4>Bài 3. Hai điều kiện</h4><div class="requirement"><b>Yêu cầu:</b> Điểm >=5 và chuyên cần >=80.</div><p><b>Tên file:</b> <span class="filename">bt28_hai_dieu_kien.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt28_hai_dieu_kien.py
+
+score = 7
+attendance = 85
+
+print(score >= 5 and attendance >= 80)</code></pre></div></div>
+<div class="exercise"><h4>Bài 4. Kiểm tra tài khoản mẫu</h4><div class="requirement"><b>Yêu cầu:</b> So sánh username và password.</div><p><b>Tên file:</b> <span class="filename">bt29_tai_khoan.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt29_tai_khoan.py
+
+username = "admin"
+password = "123456"
+
+result = username == "admin" and password == "123456"
+
+print("Thông tin khớp:", result)</code></pre></div></div>
+<div class="exercise"><h4>Bài 5. Đảo trạng thái</h4><div class="requirement"><b>Yêu cầu:</b> Cho is_locked=False, in not is_locked.</div><p><b>Tên file:</b> <span class="filename">bt30_not.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt30_not.py
+
+is_locked = False
+
+print("Trạng thái ban đầu:", is_locked)
+print("Trạng thái đảo:", not is_locked)</code></pre></div></div>
+</section>
+
+<section class="section" id="chuoi">
+<h2>7. CHUỖI VÀ ĐỊNH DẠNG</h2>
+
+<h3>7.1. Chuỗi là gì?</h3>
+<p>Chuỗi là dữ liệu văn bản. Có thể dùng dấu nháy đơn hoặc nháy kép.</p>
+<pre><code>name = "An"
+message = 'Hello Python'</code></pre>
+
+<h3>7.2. Nối chuỗi</h3>
+<pre><code>first_name = "Van"
+last_name = "An"
+full_name = first_name + " " + last_name
+print(full_name)</code></pre>
+
+<h3>7.3. f-string</h3>
+<p>f-string giúp đưa biến trực tiếp vào chuỗi, dễ đọc hơn nối chuỗi.</p>
+<pre><code>name = "An"
+age = 18
+print(f"Tôi tên là {name}, năm nay {age} tuổi.")</code></pre>
+
+<h3>7.4. Định dạng số</h3>
+<pre><code>average = 8.166666
+print(f"Điểm trung bình: {average:.2f}")</code></pre>
+
+<h3>7.5. Escape</h3>
+<table>
+<tr><th>Ký hiệu</th><th>Ý nghĩa</th></tr>
+<tr><td><code>\n</code></td><td>Xuống dòng</td></tr>
+<tr><td><code>\t</code></td><td>Tab</td></tr>
+<tr><td><code>\"</code></td><td>Nháy kép</td></tr>
+<tr><td><code>\\</code></td><td>Dấu gạch chéo ngược</td></tr>
+</table>
+
+<div class="demo">
+<h4>DEMO HOÀN CHỈNH 7 · Phiếu thông tin bằng f-string</h4>
+<p><b>Tên file:</b> <span class="filename">demo_07_f_string.py</span></p>
+<pre><code># demo_07_f_string.py
+
+name = "Nguyen Van An"
+student_class = "CNTT K28"
+average = 8.166666
+
+print("===== THÔNG TIN =====")
+print(f"Họ tên: {name}")
+print(f"Lớp: {student_class}")
+print(f"Điểm trung bình: {average:.2f}")</code></pre>
+</div>
+
+<h3>5 bài thực hành cơ bản</h3>
+<div class="exercise"><h4>Bài 1. Câu giới thiệu</h4><div class="requirement"><b>Yêu cầu:</b> In tên và tuổi bằng f-string.</div><p><b>Tên file:</b> <span class="filename">bt31_gioi_thieu.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt31_gioi_thieu.py
+
+name = "An"
+age = 18
+
+print(f"Tôi tên là {name}, năm nay {age} tuổi.")</code></pre></div></div>
+<div class="exercise"><h4>Bài 2. Làm tròn 2 chữ số</h4><div class="requirement"><b>Yêu cầu:</b> In 8.1666 thành 8.17.</div><p><b>Tên file:</b> <span class="filename">bt32_lam_tron.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt32_lam_tron.py
+
+average = 8.1666
+
+print(f"{average:.2f}")</code></pre></div></div>
+<div class="exercise"><h4>Bài 3. Xuống dòng</h4><div class="requirement"><b>Yêu cầu:</b> In Họ tên, Lớp, Điểm trên 3 dòng.</div><p><b>Tên file:</b> <span class="filename">bt33_xuong_dong.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt33_xuong_dong.py
+
+print("Họ tên: An\nLớp: CNTT\nĐiểm: 8.5")</code></pre></div></div>
+<div class="exercise"><h4>Bài 4. format()</h4><div class="requirement"><b>Yêu cầu:</b> In tên sản phẩm và giá bằng format().</div><p><b>Tên file:</b> <span class="filename">bt34_format.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt34_format.py
+
+product = "Bút"
+price = 5000
+
+print("Sản phẩm: {}, Giá: {}".format(product, price))</code></pre></div></div>
+<div class="exercise"><h4>Bài 5. Bảng nhỏ bằng tab</h4><div class="requirement"><b>Yêu cầu:</b> In bảng tên và điểm của 2 sinh viên.</div><p><b>Tên file:</b> <span class="filename">bt35_bang_tab.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt35_bang_tab.py
+
+print("Tên\tĐiểm")
+print("An\t8.5")
+print("Bình\t7.0")</code></pre></div></div>
+</section>
+
+<section class="section" id="io">
+<h2>8. NHẬP/XUẤT DỮ LIỆU VỚI input() VÀ print()</h2>
+
+<h3>8.1. print()</h3>
+<p><code>print()</code> dùng để xuất dữ liệu ra màn hình.</p>
+<pre><code>print("Hello Python")
+print("Tuổi:", 18)</code></pre>
+
+<h3>8.2. input()</h3>
+<p><code>input()</code> dùng để nhận dữ liệu từ bàn phím.</p>
+<pre><code>name = input("Nhập tên: ")
+print(name)</code></pre>
+
+<h3>8.3. input() luôn trả về chuỗi</h3>
+<p>Đây là điểm rất quan trọng. Nếu cần tính toán, phải chuyển kiểu.</p>
+
+<div class="demo">
+<h4>DEMO HOÀN CHỈNH 8 · Nhập thông tin và tính điểm trung bình</h4>
+<p><b>Tên file:</b> <span class="filename">demo_08_input_output.py</span></p>
+<pre><code># demo_08_input_output.py
+
+name = input("Nhập họ tên: ")
+math = float(input("Nhập điểm Toán: "))
+physics = float(input("Nhập điểm Lý: "))
+chemistry = float(input("Nhập điểm Hóa: "))
+
+average = (math + physics + chemistry) / 3
+
+print("\n===== KẾT QUẢ =====")
+print(f"Họ tên: {name}")
+print(f"Điểm trung bình: {average:.2f}")</code></pre>
+</div>
+
+<h3>5 bài thực hành cơ bản</h3>
+<div class="exercise"><h4>Bài 1. Lời chào</h4><div class="requirement"><b>Yêu cầu:</b> Nhập họ tên, in lời chào.</div><p><b>Tên file:</b> <span class="filename">bt36_loi_chao.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt36_loi_chao.py
+
+name = input("Nhập họ tên: ")
+
+print(f"Xin chào {name}")</code></pre></div></div>
+<div class="exercise"><h4>Bài 2. Tổng hai số</h4><div class="requirement"><b>Yêu cầu:</b> Nhập 2 số nguyên và tính tổng.</div><p><b>Tên file:</b> <span class="filename">bt37_tong_hai_so.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt37_tong_hai_so.py
+
+a = int(input("Nhập a: "))
+b = int(input("Nhập b: "))
+
+print("Tổng =", a + b)</code></pre></div></div>
+<div class="exercise"><h4>Bài 3. Diện tích hình chữ nhật</h4><div class="requirement"><b>Yêu cầu:</b> Nhập chiều dài, chiều rộng, tính diện tích.</div><p><b>Tên file:</b> <span class="filename">bt38_nhap_hinh_chu_nhat.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt38_nhap_hinh_chu_nhat.py
+
+length = float(input("Chiều dài: "))
+width = float(input("Chiều rộng: "))
+
+area = length * width
+
+print("Diện tích:", area)</code></pre></div></div>
+<div class="exercise"><h4>Bài 4. Trung bình 3 điểm</h4><div class="requirement"><b>Yêu cầu:</b> Nhập 3 điểm và in trung bình 2 chữ số.</div><p><b>Tên file:</b> <span class="filename">bt39_nhap_3_diem.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt39_nhap_3_diem.py
+
+a = float(input("Điểm 1: "))
+b = float(input("Điểm 2: "))
+c = float(input("Điểm 3: "))
+
+average = (a + b + c) / 3
+
+print(f"Trung bình: {average:.2f}")</code></pre></div></div>
+<div class="exercise"><h4>Bài 5. Hóa đơn mini</h4><div class="requirement"><b>Yêu cầu:</b> Nhập tên sản phẩm, số lượng, đơn giá, tính thành tiền.</div><p><b>Tên file:</b> <span class="filename">bt40_hoa_don_mini.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt40_hoa_don_mini.py
+
+product_name = input("Tên sản phẩm: ")
+quantity = int(input("Số lượng: "))
+price = float(input("Đơn giá: "))
+
+total = quantity * price
+
+print("\n===== HÓA ĐƠN =====")
+print(f"Sản phẩm: {product_name}")
+print(f"Số lượng: {quantity}")
+print(f"Đơn giá: {price:.2f}")
+print(f"Thành tiền: {total:.2f}")</code></pre></div></div>
+</section>
+
+<section class="section" id="loi">
+<h2>9. XỬ LÝ LỖI NHẬP LIỆU CƠ BẢN</h2>
+
+<h3>9.1. Vì sao có lỗi?</h3>
+<p>Nếu chương trình yêu cầu số nhưng người dùng nhập chữ, việc ép kiểu có thể gây <code>ValueError</code>.</p>
+<pre><code>age = int(input("Nhập tuổi: "))</code></pre>
+<p>Nếu nhập <code>abc</code>, Python không thể đổi "abc" thành số nguyên.</p>
+
+<h3>9.2. try...except</h3>
+<p><code>try</code> chứa đoạn mã có thể gây lỗi. <code>except</code> dùng để xử lý khi lỗi xảy ra.</p>
+<pre><code>try:
+    age = int(input("Nhập tuổi: "))
+    print(age)
+except ValueError:
+    print("Dữ liệu không hợp lệ")</code></pre>
+
+<div class="demo">
+<h4>DEMO HOÀN CHỈNH 9 · Tính tổng an toàn</h4>
+<p><b>Tên file:</b> <span class="filename">demo_09_try_except.py</span></p>
+<pre><code># demo_09_try_except.py
+
+try:
+    a = float(input("Nhập số a: "))
+    b = float(input("Nhập số b: "))
+
+    total = a + b
+
+    print("Tổng =", total)
+
+except ValueError:
+    print("Lỗi: bạn phải nhập số.")</code></pre>
+</div>
+
+<h3>5 bài thực hành cơ bản</h3>
+<div class="exercise"><h4>Bài 1. Nhập tuổi an toàn</h4><div class="requirement"><b>Yêu cầu:</b> Nếu nhập sai kiểu thì báo lỗi.</div><p><b>Tên file:</b> <span class="filename">bt41_tuoi_an_toan.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt41_tuoi_an_toan.py
+
+try:
+    age = int(input("Nhập tuổi: "))
+    print("Tuổi:", age)
+except ValueError:
+    print("Tuổi phải là số nguyên.")</code></pre></div></div>
+<div class="exercise"><h4>Bài 2. Nhập điểm an toàn</h4><div class="requirement"><b>Yêu cầu:</b> Nhập điểm float, xử lý nhập sai.</div><p><b>Tên file:</b> <span class="filename">bt42_diem_an_toan.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt42_diem_an_toan.py
+
+try:
+    score = float(input("Nhập điểm: "))
+    print("Điểm:", score)
+except ValueError:
+    print("Điểm phải là số.")</code></pre></div></div>
+<div class="exercise"><h4>Bài 3. Tổng hai số an toàn</h4><div class="requirement"><b>Yêu cầu:</b> Nếu một trong hai dữ liệu sai thì báo lỗi.</div><p><b>Tên file:</b> <span class="filename">bt43_tong_an_toan.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt43_tong_an_toan.py
+
+try:
+    a = float(input("a = "))
+    b = float(input("b = "))
+
+    print("Tổng =", a + b)
+except ValueError:
+    print("Dữ liệu nhập không hợp lệ.")</code></pre></div></div>
+<div class="exercise"><h4>Bài 4. Diện tích an toàn</h4><div class="requirement"><b>Yêu cầu:</b> Nhập dài, rộng, tính diện tích; nếu sai thì báo lỗi.</div><p><b>Tên file:</b> <span class="filename">bt44_dien_tich_an_toan.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt44_dien_tich_an_toan.py
+
+try:
+    length = float(input("Chiều dài: "))
+    width = float(input("Chiều rộng: "))
+
+    area = length * width
+
+    print("Diện tích:", area)
+except ValueError:
+    print("Vui lòng nhập số.")</code></pre></div></div>
+<div class="exercise"><h4>Bài 5. Điểm trung bình an toàn</h4><div class="requirement"><b>Yêu cầu:</b> Nhập 3 điểm và xử lý lỗi.</div><p><b>Tên file:</b> <span class="filename">bt45_diem_tb_an_toan.py</span></p><button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button><div class="answer"><pre><code># bt45_diem_tb_an_toan.py
+
+try:
+    math = float(input("Toán: "))
+    physics = float(input("Lý: "))
+    chemistry = float(input("Hóa: "))
+
+    average = (math + physics + chemistry) / 3
+
+    print(f"Điểm trung bình: {average:.2f}")
+except ValueError:
+    print("Có dữ liệu nhập không hợp lệ.")</code></pre></div></div>
+</section>
+
+<section class="section" id="tonghop">
+<h2>10. THỰC HÀNH TỔNG HỢP CUỐI CHƯƠNG</h2>
+
+<div class="exercise">
+<h4>Bài tổng hợp 1. Phiếu kết quả học tập</h4>
+<div class="requirement">
+<b>Yêu cầu:</b>
+<ul>
+<li>Nhập họ tên và mã sinh viên.</li>
+<li>Nhập điểm Toán, Tin học, Tiếng Anh.</li>
+<li>Tính điểm trung bình.</li>
+<li>In phiếu kết quả rõ ràng.</li>
+<li>Xử lý lỗi nếu điểm nhập không phải số.</li>
+</ul>
+</div>
+<p><b>Tên file:</b> <span class="filename">tonghop_01_phieu_ket_qua.py</span></p>
+<ol>
+<li>Tạo file đúng tên.</li>
+<li>Nhập thông tin dạng chuỗi trước.</li>
+<li>Đặt phần nhập điểm trong <code>try</code>.</li>
+<li>Tính trung bình.</li>
+<li>Dùng f-string in kết quả.</li>
+</ol>
+<button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button>
+<div class="answer"><pre><code># tonghop_01_phieu_ket_qua.py
+
+name = input("Nhập họ tên: ")
+student_id = input("Nhập MSSV: ")
+
+try:
+    math = float(input("Điểm Toán: "))
+    it = float(input("Điểm Tin học: "))
+    english = float(input("Điểm Tiếng Anh: "))
+
+    average = (math + it + english) / 3
+
+    print("\n===== PHIẾU KẾT QUẢ =====")
+    print(f"Họ tên: {name}")
+    print(f"MSSV: {student_id}")
+    print(f"Toán: {math}")
+    print(f"Tin học: {it}")
+    print(f"Tiếng Anh: {english}")
+    print(f"Điểm trung bình: {average:.2f}")
+
+except ValueError:
+    print("Lỗi: điểm phải là số.")</code></pre></div>
+</div>
+
+<div class="exercise">
+<h4>Bài tổng hợp 2. Hóa đơn bán hàng</h4>
+<div class="requirement">
+<b>Yêu cầu:</b>
+<ul>
+<li>Nhập tên sản phẩm.</li>
+<li>Nhập số lượng.</li>
+<li>Nhập đơn giá.</li>
+<li>Nhập phần trăm giảm giá.</li>
+<li>Tính tạm tính, tiền giảm và số tiền cuối cùng.</li>
+</ul>
+</div>
+<p><b>Tên file:</b> <span class="filename">tonghop_02_hoa_don.py</span></p>
+<button class="btn" onclick="toggle(this)">Xem code hoàn chỉnh</button>
+<div class="answer"><pre><code># tonghop_02_hoa_don.py
+
+product_name = input("Tên sản phẩm: ")
+
+try:
+    quantity = int(input("Số lượng: "))
+    price = float(input("Đơn giá: "))
+    discount_percent = float(input("Giảm giá (%): "))
+
+    subtotal = quantity * price
+    discount_amount = subtotal * discount_percent / 100
+    final_total = subtotal - discount_amount
+
+    print("\n===== HÓA ĐƠN =====")
+    print(f"Sản phẩm: {product_name}")
+    print(f"Số lượng: {quantity}")
+    print(f"Đơn giá: {price:.2f}")
+    print(f"Tạm tính: {subtotal:.2f}")
+    print(f"Tiền giảm: {discount_amount:.2f}")
+    print(f"Thanh toán: {final_total:.2f}")
+
+except ValueError:
+    print("Lỗi: dữ liệu số không hợp lệ.")</code></pre></div>
+</div>
+
+<div class="summary">
+<h3 style="margin-top:0">Chuỗi kiến thức cần nhớ</h3>
+<p>Biến → Kiểu dữ liệu → Ép kiểu → Toán tử → Chuỗi → input() → Xử lý dữ liệu → f-string → print() → try...except</p>
+<p>Hoàn thành chương này, sinh viên đã đủ nền tảng để học tiếp <b>if – elif – else</b>.</p>
+</div>
+</section>
+</main>
+</div>
+
+<script>
+function toggle(btn){
+  const answer = btn.nextElementSibling;
+  const show = answer.style.display !== "block";
+  answer.style.display = show ? "block" : "none";
+  btn.textContent = show ? "Ẩn code" : "Xem code hoàn chỉnh";
+}
+function showAll(){
+  document.querySelectorAll(".answer").forEach(x=>x.style.display="block");
+}
+function hideAll(){
+  document.querySelectorAll(".answer").forEach(x=>x.style.display="none");
+}
+window.addEventListener("scroll",()=>{
+  const d=document.documentElement;
+  const max=d.scrollHeight-d.clientHeight;
+  const pct=max>0?(d.scrollTop/max)*100:0;
+  document.getElementById("progress").style.width=pct+"%";
+});
+</script>
+</body>
+</html>
